@@ -4,22 +4,29 @@ using UnityEngine;
 
 public class RigidBodyScript : MonoBehaviour {
 
-	Vector2 force = new Vector2(1,2); //force vector so object can be moved
+	// direction of the force
+	Vector2 forceDirection = new Vector2(1,2); 
+	
+	// desired strength of applied force
+	float desiredMagnitude = 2; 
+	
+	Vector2 force;
 
 	private Rigidbody2D rb;
 	
-	// Use this for initialization
 	void Start ()
 	{
 
 		rb = GetComponent<Rigidbody2D>(); // gets reference to rigid body component of object 
-	}
-	
-	// Update is called once per frame
-	void FixedUpdate () {
-		
-		rb.AddForce(force); // apply force to object as game runs
+		force = desiredMagnitude * forceDirection.normalized; // normalize the direction, and then multiply by the desired magnitude
 		Debug.DrawRay(transform.position, force); //shows segment to visualize the force
 		Debug.Log("Force = " +force.magnitude);
+		
+	}
+	
+	void Update () {
+		
+		rb.AddForce(force); // apply force to object as game runs
+		
 	}
 }
